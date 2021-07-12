@@ -2,10 +2,12 @@ from flask import Flask
 import logging
 
 app = Flask(__name__)
+logging.basicConfig(filename="log.txt", level=logging.INFO)
 
 
 @app.route('/')
 def index():
+    logging.info("This is the index page.")
     return "Index Page"
 
 
@@ -14,10 +16,5 @@ def hello():
     return "Hello World"
 
 
-def run_app():
-    logging.basicConfig(filename="log.txt", level=logging.INFO)
-    app.run()
-
 if __name__ == '__main__':
-    run_app()
-
+    app.run(debug=True)
