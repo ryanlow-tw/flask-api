@@ -1,7 +1,7 @@
 import logging
 import unittest
 import requests
-from bookshop_api import index
+from bookshop_api import index, hello
 from unittest.mock import patch
 
 
@@ -28,3 +28,8 @@ class TestBookShop_API(unittest.TestCase):
     def test_that_root_page_request_should_be_logged(self, info_mock):
         index()
         info_mock.assert_called_once_with("This is the index page.")
+
+    @patch("bookshop_api.logging.info")
+    def test_that_hello_route_request_should_be_logged(self, info_mock):
+        hello()
+        info_mock.assert_called_once_with("This is the hello page.")
