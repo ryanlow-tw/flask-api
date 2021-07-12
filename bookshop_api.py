@@ -14,7 +14,10 @@ def hello():
     return "Hello World"
 
 
-if __name__ == '__main__':
-
+def run_app():
     logging.basicConfig(filename="log.txt", level=logging.INFO)
     app.run()
+
+if __name__ == '__main__':
+    run_app()
+
