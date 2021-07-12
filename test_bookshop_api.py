@@ -13,3 +13,10 @@ class TestBookShop_API(unittest.TestCase):
         self.assertEqual(200, r.status_code)
         self.assertEqual("Index Page", r.text)
 
+    def test_hello_route_returns_string_index_page(self):
+        INDEX_ROUTE = "/hello"
+        ENDPOINT_URL = f"{self.API_URL}{INDEX_ROUTE}"
+        r = requests.get(ENDPOINT_URL)
+
+        self.assertEqual(200, r.status_code)
+        self.assertEqual("Hello World", r.text)

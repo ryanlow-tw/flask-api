@@ -1,4 +1,5 @@
 from flask import Flask
+import logging
 
 app = Flask(__name__)
 
@@ -10,8 +11,10 @@ def index():
 
 @app.route('/hello')
 def hello():
-    pass
+    return "Hello World"
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+
+    logging.basicConfig(filename="log.txt", level=logging.INFO)
+    app.run()
