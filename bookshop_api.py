@@ -13,6 +13,7 @@ def index():
 
 @app.route('/hello')
 def hello():
+    logging.info("This is the hello page.")
     return "Hello World"
 
 
