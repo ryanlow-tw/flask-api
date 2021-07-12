@@ -2,7 +2,7 @@ from flask import Flask
 import logging
 
 app = Flask(__name__)
-logging.basicConfig(filename="log.txt", level=logging.INFO)
+logging.basicConfig(filename="../log.txt", level=logging.INFO)
 
 
 @app.route('/')
