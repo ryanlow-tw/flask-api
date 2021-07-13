@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 import logging
 from database import Database
 
@@ -21,14 +21,14 @@ def hello():
 
 @app.route('/books', methods=["GET"])
 def books():
-    query = "SELECT * FROM books_50"
+    order = request.args.get("order")
+    limit = request.args.get("limit")
+
+
+    query = f"SELECT * FROM books_50 ORDER BY price {order} LIMIT {limit}"
     return db.get_data(query)
 
 
-@app.route('/books/<isbn13>', methods=["GET"])
-def get_books_by_isbn(isbn13):
-    query = f"SELECT * FROM books_50 WHERE isbn13 = {isbn13}"
-    return db.get_data(query)
 
 
 if __name__ == '__main__':
