@@ -1,8 +1,8 @@
-import logging
 import unittest
 import requests
 from bookshop_api import index, hello
 from unittest.mock import patch
+from database import Database
 
 
 class TestBookShop_API(unittest.TestCase):
@@ -33,3 +33,11 @@ class TestBookShop_API(unittest.TestCase):
     def test_that_hello_route_request_should_be_logged(self, info_mock):
         hello()
         info_mock.assert_called_once_with("This is the hello page.")
+
+    def test_should_raise_exception_for_multiple_database_instance(self):
+
+        with self.assertRaises(Exception) as error:
+            another_db = Database()
+        exception = error.exception
+        self.assertEqual(f"{exception}", "Database cannot be instantiated more than once :(")
+
