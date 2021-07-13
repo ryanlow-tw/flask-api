@@ -6,7 +6,7 @@ from database import Database
 
 
 class TestBookShop_API(unittest.TestCase):
-    API_URL = "http://127.0.0.1:5000"
+    API_URL = "http://127.0.0.1:5000"  # extract into config file
 
     def test_root_page_returns_string_index_page(self):
         INDEX_ROUTE = "/"

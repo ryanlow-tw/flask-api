@@ -23,12 +23,29 @@ def hello():
 def books():
     order = request.args.get("order")
     limit = request.args.get("limit")
+    author = request.args.get("author")
+    isbn13 = request.args.get("isbn13")
+    price = request.args.get("price")
 
-
-    query = f"SELECT * FROM books_50 ORDER BY price {order} LIMIT {limit}"
+    query = f"""
+    SELECT * FROM books_50 
+    WHERE isbn13={isbn13} 
+    ORDER BY price {order} 
+    LIMIT {limit};
+    """
     return db.get_data(query)
 
 
+# def parse_where(**kwargs):
+#     substring = "WHERE "
+#     i = 0
+#     for key, value in kwargs:
+#         if i != len(kwargs):
+#             substring += f'{key}={value}, '
+#         else:
+#             substring += f'{key}={value}'
+#         i += 1
+#     return substring
 
 
 if __name__ == '__main__':
