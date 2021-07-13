@@ -1,8 +1,8 @@
 from flask import Flask
 import logging
-import sqlite3
+from database import Database
 
-db_path = "../database/books.db"
+db = Database()
 app = Flask(__name__)
 logging.basicConfig(filename="../log.txt", level=logging.INFO)
 
@@ -19,18 +19,16 @@ def hello():
     return "Hello World"
 
 
-@app.route('/books')
+@app.route('/books', methods=["GET"])
 def books():
     query = "SELECT * FROM books_50"
-    return get_data(query)
+    return db.get_data(query)
 
 
-def get_data(query):
-    with sqlite3.connect(db_path) as conn:
-        cursor = conn.cursor()
-        cursor.execute(query)
-        json_results = [dict((cursor.description[i][0], value) for i, value in enumerate(row)) for row in cursor.fetchall()]
-        return {"result": json_results}
+@app.route('/books/<isbn13>', methods=["GET"])
+def get_books_by_isbn(isbn13):
+    query = f"SELECT * FROM books_50 WHERE isbn13 = {isbn13}"
+    return db.get_data(query)
 
 
 if __name__ == '__main__':
