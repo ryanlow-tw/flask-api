@@ -1,4 +1,4 @@
 log.txt
 venv/
-database/
+database/books.db
 __init__.py
