@@ -2,7 +2,7 @@ import unittest
 import requests
 from app import index, hello
 from unittest.mock import patch
-from database.database import Database
+from database.booksdb import Database
 
 
 class TestBookShop_API(unittest.TestCase):
@@ -24,12 +24,12 @@ class TestBookShop_API(unittest.TestCase):
         self.assertEqual(200, r.status_code)
         self.assertEqual("Hello World", r.text)
 
-    @patch("bookshop_api.logging.info")
+    @patch("app.logging.info")
     def test_that_root_page_request_should_be_logged(self, info_mock):
         index()
         info_mock.assert_called_once_with("This is the index page.")
 
-    @patch("bookshop_api.logging.info")
+    @patch("app.logging.info")
     def test_that_hello_route_request_should_be_logged(self, info_mock):
         hello()
         info_mock.assert_called_once_with("This is the hello page.")
@@ -37,7 +37,7 @@ class TestBookShop_API(unittest.TestCase):
     def test_should_raise_exception_for_multiple_database_instance(self):
 
         with self.assertRaises(Exception) as error:
-            another_db = Database()
+            another_db = Database('db')
         exception = error.exception
         self.assertEqual(f"{exception}", "Database cannot be instantiated more than once :(")
 
