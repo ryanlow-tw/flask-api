@@ -1,8 +1,8 @@
 import unittest
 import requests
-from bookshop_api import index, hello
+from app import index, hello
 from unittest.mock import patch
-from database import Database
+from database.database import Database
 
 
 class TestBookShop_API(unittest.TestCase):
