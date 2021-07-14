@@ -1,6 +1,6 @@
-def parse_data(results):
+def parse_data(table_results):
     data = []
-    for row in results:
+    for row in table_results:
         data.append({
             'id': f'{row.id}',
             'author': f'{row.author}',
