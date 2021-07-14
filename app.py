@@ -9,8 +9,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database/books.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 
-books_50 = db.Table('books_50', db.metadata, autoload=True, autoload_with=db.engine)
-bookshop = Database(books_50)
+bookshop = Database(db,'books_50')
+bookshop.load_db()
 
 logging.basicConfig(filename="./log.txt", level=logging.INFO)
 
@@ -29,8 +29,8 @@ def hello():
 
 @app.route('/books', methods=["GET"])
 def books():
-    results = db.session.query(bookshop.db).all()
-    return {'results': parse_data(results)}
+    table_results = db.session.query(bookshop.db).all()
+    return {'results': parse_data(table_results)}
 
 
 if __name__ == '__main__':
