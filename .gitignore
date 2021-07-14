@@ -1,3 +1,4 @@
 log.txt
 venv/
 database/
+__init__.py

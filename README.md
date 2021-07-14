@@ -21,7 +21,7 @@ source venv/bin/activate
 Before running the test, please start the server from the folder, app with the following command:
 
 ```bash
-python bookshop_api.py
+python app.py
 ```
 Once the server has started, use the following command to run the tests
 ```bash
