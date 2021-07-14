@@ -4,8 +4,9 @@ import logging
 from database.booksdb import Database
 from db_parser.db_parser import parse_data
 
+db_path = 'sqlite:///database/books.db'
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database/books.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = db_path
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 
