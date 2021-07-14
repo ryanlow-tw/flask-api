@@ -12,7 +12,7 @@ books_list = []
 for instance in bookshop.session.query(bookshop.Bookshop).all():
     books_list.append({
         'id': f'{instance.id}',
-        'author': f'{instance.author.decode("unicode_escape"):}',
+        'author': f'{instance.author}',
         'title': f'{instance.title}',
         'image_url': f'{instance.image_url}',
         'small_image_url': f'{instance.small_image_url}',
