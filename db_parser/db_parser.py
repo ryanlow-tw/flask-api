@@ -15,4 +15,4 @@ def parse_data(table_results):
             'language_code': f'{row.language_code}',
             'average_rating': f'{row.average_rating}'})
 
-    return data
+    return {'results': data}
