@@ -6,8 +6,24 @@ db_path = 'sqlite:///database/books.db'
 table_name = 'books_50'
 bookshop = Database(db_path, table_name)
 bookshop.create_db_session()
-res = bookshop.session.query(bookshop.Bookshop).all()
-print(res[0].author)
+
+books_list = []
+
+for instance in bookshop.session.query(bookshop.Bookshop).all():
+    books_list.append({
+        'id': f'{instance.id}',
+        'author': f'{instance.author.decode("unicode_escape"):}',
+        'title': f'{instance.title}',
+        'image_url': f'{instance.image_url}',
+        'small_image_url': f'{instance.small_image_url}',
+        'price': f'{instance.price}',
+        'isbn': f'{instance.isbn}',
+        'isbn13': f'{instance.isbn13}',
+        'original_publication_year': f'{instance.original_publication_year}',
+        'original_title': f'{instance.original_title}',
+        'language_code': f'{instance.language_code}',
+        'average_rating': f'{instance.average_rating}'})
+
 app = Flask(__name__)
 logging.basicConfig(filename="../log.txt", level=logging.INFO)
 
@@ -26,7 +42,7 @@ def hello():
 
 @app.route('/books', methods=["GET"])
 def books():
-    return
+    return {'results': books_list}
 
 
 if __name__ == '__main__':
