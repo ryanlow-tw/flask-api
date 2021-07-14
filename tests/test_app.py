@@ -37,7 +37,7 @@ class TestBookShop_API(unittest.TestCase):
     def test_should_raise_exception_for_multiple_database_instance(self):
 
         with self.assertRaises(Exception) as error:
-            another_db = Database('db')
+            another_db = Database('db', 'table_name')
         exception = error.exception
         self.assertEqual(f"{exception}", "Database cannot be instantiated more than once :(")
 
