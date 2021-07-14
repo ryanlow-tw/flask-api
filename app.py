@@ -6,12 +6,13 @@ from db_parser.db_parser import parse_data
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database/books.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 
 books_50 = db.Table('books_50', db.metadata, autoload=True, autoload_with=db.engine)
 bookshop = Database(books_50)
 
-logging.basicConfig(filename="../log.txt", level=logging.INFO)
+logging.basicConfig(filename="./log.txt", level=logging.INFO)
 
 
 @app.route('/')
