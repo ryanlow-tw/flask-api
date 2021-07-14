@@ -10,7 +10,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = db_path
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 
-bookshop = Database(db,'books_50')
+bookshop = Database(db, 'books_50')
 bookshop.load_db()
 
 logging.basicConfig(filename="./log.txt", level=logging.INFO)
@@ -28,10 +28,25 @@ def hello():
     return "Hello World"
 
 
+@app.route('/books/all', methods=["GET"])
+def all_books():
+    table_results = db.session.query(bookshop.db).all()
+    data = parse_data(table_results)
+    return data
+
+
 @app.route('/books', methods=["GET"])
 def books():
     table_results = db.session.query(bookshop.db).all()
-    return {'results': parse_data(table_results)}
+    data = parse_data(table_results)
+    return data
+
+
+@app.route('/books/<int:book_id>', methods=["GET"])
+def books_id(book_id):
+    table_results = db.session.query(bookshop.db).filter_by(id=book_id).all()
+    data = parse_data(table_results)
+    return data
 
 
 if __name__ == '__main__':
