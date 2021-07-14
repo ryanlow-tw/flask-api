@@ -1,30 +1,16 @@
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 import logging
 from database.booksdb import Database
-
-db_path = 'sqlite:///database/books.db'
-table_name = 'books_50'
-bookshop = Database(db_path, table_name)
-bookshop.create_db_session()
-
-books_list = []
-
-for instance in bookshop.session.query(bookshop.Bookshop).all():
-    books_list.append({
-        'id': f'{instance.id}',
-        'author': f'{instance.author}',
-        'title': f'{instance.title}',
-        'image_url': f'{instance.image_url}',
-        'small_image_url': f'{instance.small_image_url}',
-        'price': f'{instance.price}',
-        'isbn': f'{instance.isbn}',
-        'isbn13': f'{instance.isbn13}',
-        'original_publication_year': f'{instance.original_publication_year}',
-        'original_title': f'{instance.original_title}',
-        'language_code': f'{instance.language_code}',
-        'average_rating': f'{instance.average_rating}'})
+from db_parser.db_parser import parse_data
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database/books.db'
+db = SQLAlchemy(app)
+
+books_50 = db.Table('books_50', db.metadata, autoload=True, autoload_with=db.engine)
+bookshop = Database(books_50)
+
 logging.basicConfig(filename="../log.txt", level=logging.INFO)
 
 
@@ -42,7 +28,8 @@ def hello():
 
 @app.route('/books', methods=["GET"])
 def books():
-    return {'results': books_list}
+    results = db.session.query(bookshop.db).all()
+    return {'results': parse_data(results)}
 
 
 if __name__ == '__main__':
