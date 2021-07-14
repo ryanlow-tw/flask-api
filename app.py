@@ -1,6 +1,6 @@
 from flask import Flask
 import logging
-from database.database import Database
+from database.booksdb import Database
 
 db = Database()
 app = Flask(__name__)
