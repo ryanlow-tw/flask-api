@@ -2,7 +2,6 @@ from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from database.booksdb import Database
 from db_parser.db_parser import parse_data
-from sqlalchemy import text
 import logging
 
 db_path = 'sqlite:///database/books.db'
