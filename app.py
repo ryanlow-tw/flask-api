@@ -35,22 +35,21 @@ def books_id(book_id):
     return data
 
 
-@app.route('/books/all', methods=["GET"])
-def all_books():
-    table_results = db.session.query(bookshop.db).all()
-    data = parse_data(table_results)
-    return data
-
-
 @app.route('/books', methods=["GET"])
 def books():
-    table_results = None
     order = request.args.get('order')
+
+    if order is None:
+        table_results = db.session.query(bookshop.db).all()
+        data = parse_data(table_results)
+        return data
+
     if order.lower() == "desc":
         table_results = db.session.query(bookshop.db).order_by(bookshop.db.c.price.desc()).all()
     elif order.lower() == "asc":
         table_results = db.session.query(bookshop.db).order_by(bookshop.db.c.price).all()
-
+    else:
+        return "<h1>KTV cases on the rise!</h1>"
     data = parse_data(table_results)
     return data
 
