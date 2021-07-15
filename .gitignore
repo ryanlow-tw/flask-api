@@ -1,7 +1,5 @@
 log.txt
 venv/
-database/books.db
 __init__.py
 database/seed/books_50.csv
 database/seed/convert_csv_to_sql_db.py
-config.py
