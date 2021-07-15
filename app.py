@@ -37,20 +37,40 @@ def books_id(book_id):
 
 @app.route('/books', methods=["GET"])
 def books():
-    order = request.args.get('order')
 
-    if order is None:
-        table_results = db.session.query(bookshop.db).all()
-        data = parse_data(table_results)
-        return data
+    query_strings = request.args.to_dict()
+    query_builder = db.session.query(bookshop.db)
 
-    if order.lower() == "desc":
-        table_results = db.session.query(bookshop.db).order_by(bookshop.db.c.price.desc()).all()
-    elif order.lower() == "asc":
-        table_results = db.session.query(bookshop.db).order_by(bookshop.db.c.price).all()
+    order = query_strings.get("order", "").lower()
+    name = query_strings.get("name", "").lower()
+    price = query_strings.get("price", None)
+    language = query_strings.get("language", "").lower()
+    isbn = query_strings.get("isbn", "")
+    isbn13 = query_strings.get("isbn13", "")
+
+    if name != "":
+        query_builder = query_builder.filter(bookshop.db.c.author.contains(name))
+
+    if price is not None:
+        price = int(price)
+        query_builder = query_builder.filter(bookshop.db.c.price.contains(price))
+
+    if language != "":
+        query_builder = query_builder.filter(bookshop.db.c.language_code.contains(language))
+
+    if isbn != "":
+        query_builder = query_builder.filter(bookshop.db.c.isbn.contains(isbn))
+
+    if isbn13 != "":
+        query_builder = query_builder.filter(bookshop.db.c.isbn13.contains(isbn13))
+
+    if order == "desc":
+        query_builder = query_builder.order_by(bookshop.db.c.price.desc()).all()
+    elif order == "asc":
+        query_builder = query_builder.order_by(bookshop.db.c.price).all()
     else:
-        return "<h1>KTV cases on the rise!</h1>"
-    data = parse_data(table_results)
+        query_builder = query_builder.all()
+    data = parse_data(query_builder)
     return data
 
 
