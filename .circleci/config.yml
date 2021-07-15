@@ -11,7 +11,7 @@ jobs:
           name: Running Server
           command: python app.py
           background: true
-      - run: python -m unittest
+      - run: python -m unittest discover tests/
 
 workflows:
   version: 2
