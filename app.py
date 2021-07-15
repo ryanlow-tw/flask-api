@@ -4,10 +4,8 @@ from database.booksdb import Database
 from db_parser.db_parser import parse_data, parse_query
 import logging
 
-db_path = 'sqlite:///database/books.db'
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = db_path
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+app.config.from_object("config.DevelopmentConfig")
 db = SQLAlchemy(app)
 
 bookshop = Database(db, 'books_50')
