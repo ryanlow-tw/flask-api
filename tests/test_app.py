@@ -8,7 +8,7 @@ import json
 
 class TestBookShop_API(unittest.TestCase):
     API_URL = "http://127.0.0.1:5000"  # extract into config file
-    maxDiff = 2000
+
     def test_root_page_returns_string_index_page(self):
         INDEX_ROUTE = "/"
         ENDPOINT_URL = f"{self.API_URL}{INDEX_ROUTE}"
@@ -36,7 +36,6 @@ class TestBookShop_API(unittest.TestCase):
         info_mock.assert_called_once_with("This is the hello page.")
 
     def test_should_raise_exception_for_multiple_database_instance(self):
-
         with self.assertRaises(Exception) as error:
             another_db = Database('db', 'table_name')
         exception = error.exception

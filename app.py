@@ -1,7 +1,7 @@
 from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from database.booksdb import Database
-from db_parser.db_parser import parse_data, parse_query
+from books_utils.books_utils import format_data, parse_book_query_string
 import logging
 
 app = Flask(__name__)
@@ -29,7 +29,7 @@ def hello():
 @app.route('/books/<int:book_id>', methods=["GET"])
 def books_id(book_id):
     table_results = db.session.query(bookshop.db).filter_by(id=book_id).all()
-    data = parse_data(table_results)
+    data = parse_book_query_string(table_results)
     return data
 
 
@@ -38,8 +38,8 @@ def books():
 
     query_strings = request.args.to_dict()
     query_builder = db.session.query(bookshop.db)
-    query_builder = parse_query(query_strings, query_builder, database=bookshop.db)
-    data = parse_data(query_builder)
+    query_builder = parse_book_query_string(query_strings, query_builder, database=bookshop.db)
+    data = format_data(query_builder)
 
     return data
 
