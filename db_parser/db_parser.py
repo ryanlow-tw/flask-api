@@ -19,3 +19,40 @@ def parse_data(table_results):
         )
 
     return {'results': data}
+
+
+def parse_query(query_strings, query_builder, database):
+
+    order = query_strings.get("order", "").lower()
+    name = query_strings.get("name", "").lower()
+    price = query_strings.get("price", None)
+    language = query_strings.get("language", "").lower()
+    isbn = query_strings.get("isbn", "")
+    isbn13 = query_strings.get("isbn13", "")
+
+    if name != "":
+        query_builder = query_builder.filter(database.c.author.contains(name))
+
+    if price is not None:
+        price = int(price)
+        query_builder = query_builder.filter(database.c.price.contains(price))
+
+    if language != "":
+        query_builder = query_builder.filter(database.c.language_code.contains(language))
+
+    if isbn != "":
+        query_builder = query_builder.filter(database.c.isbn.contains(isbn))
+
+    if isbn13 != "":
+        query_builder = query_builder.filter(database.c.isbn13.contains(isbn13))
+
+    if order == "desc":
+        query_builder = query_builder.order_by(database.c.price.desc()).all()
+
+    elif order == "asc":
+        query_builder = query_builder.order_by(database.c.price).all()
+
+    else:
+        query_builder = query_builder.all()
+
+    return query_builder
