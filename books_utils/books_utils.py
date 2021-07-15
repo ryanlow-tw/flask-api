@@ -1,4 +1,4 @@
-def parse_data(table_results):
+def format_data(table_results):
     data = []
     for row in table_results:
         data.append(
@@ -21,7 +21,7 @@ def parse_data(table_results):
     return {'results': data}
 
 
-def parse_query(query_strings, query_builder, database):
+def parse_book_query_string(query_strings, query_builder, database):
 
     order = query_strings.get("order", "").lower()
     name = query_strings.get("name", "").lower()
