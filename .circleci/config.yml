@@ -10,10 +10,10 @@ jobs:
            version: 20.10.6
       - run: pip install -r requirements.txt
       - run: docker build -t bookshop .
-      - run:
-          name: Running Server
-          command: docker run --publish 5000:5000 bookshop
-          background: true
+#      - run:
+#          name: Running Server
+#          command: docker run --publish 5000:5000 bookshop
+#          background: true
       - run: sleep 2s
       - run: python -m unittest discover tests/
 
