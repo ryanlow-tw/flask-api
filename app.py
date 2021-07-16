@@ -34,10 +34,10 @@ def hello():
 @app.route('/books/<int:book_id>', methods=["GET"])
 def books_id(book_id):
 
-    table_results = db.session.query(bookshop.db).filter_by(id=book_id).all()
-    data = parse_book_query_string(table_results)
+    data = db.session.query(bookshop.db).filter_by(id=book_id).all()
+    result = format_data(data)
 
-    return data
+    return result
 
 
 @app.route('/books', methods=["GET"])
@@ -46,7 +46,7 @@ def books():
     query_strings = request.args.to_dict()
     query_builder = db.session.query(bookshop.db)
     query_builder = parse_book_query_string(query_strings, query_builder, database=bookshop.db)
-    data = format_data(query_builder
+    data = format_data(query_builder)
 
     return data
 
