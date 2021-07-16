@@ -8,7 +8,6 @@ jobs:
       - run: python --version
       - setup_remote_docker:
            version: 20.10.6
-           docker_layer_caching: true
       - run: docker build -t bookshop .
       - run:
           name: Running Server
