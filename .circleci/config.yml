@@ -9,7 +9,11 @@ jobs:
       - setup_remote_docker:
            version: 20.10.6
       - run: docker build -t bookshop .
-      - run: docker run --publish 5000:5000 bookshop
+      - run:
+          name: Running Server
+          command: docker run --publish 5000:5000 bookshop
+          background: true
+      - run: sleep 10s
       - run: python -m unittest discover tests/
 
 workflows:
