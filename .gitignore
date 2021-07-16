@@ -1,4 +1,4 @@
 log.txt
 venv/
 database/seed/books_50.csv
-database/seed/convert_csv_to_sql_db.py
+database/seed/cogt pushnvert_csv_to_sql_db.py
