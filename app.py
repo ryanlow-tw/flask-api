@@ -3,9 +3,12 @@ from flask_sqlalchemy import SQLAlchemy
 from database.booksdb import Database
 from books_utils.books_utils import format_data, parse_book_query_string
 import logging
+import os
+# "config.EnvironmentConfig"
 
 app = Flask(__name__)
-app.config.from_object("config.EnvironmentConfig")
+config_path = os.environ.get('CURRENT_ENVIRONMENT')
+app.config.from_object(config_path)
 db = SQLAlchemy(app)
 
 bookshop = Database(db, 'books_50')
