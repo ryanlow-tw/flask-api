@@ -17,19 +17,19 @@ jobs:
       - run:
           name: Deploy to uat
           command: |
-            echo 'export $(cat environment/uat.env)' >> $BASH_ENV
+            echo 'export $(cat ../environment/uat.env)' >> $BASH_ENV
             source $BASH_ENV
             echo "$CURRENT_ENV"
       - run:
           name: Deploy to sit
           command: |
-            echo 'export $(cat environment/sit.env)' >> $BASH_ENV
+            echo 'export $(cat ../environment/sit.env)' >> $BASH_ENV
             source $BASH_ENV
             echo "$CURRENT_ENV"
       - run:
           name: Deploy to prod
           command: |
-            echo 'export $(cat environment/prod.env)' >> $BASH_ENV
+            echo 'export $(cat ../environment/prod.env)' >> $BASH_ENV
             source $BASH_ENV
             echo "$CURRENT_ENV"
 
