@@ -4,11 +4,9 @@ from database.booksdb import Database
 from books_utils.books_utils import format_data, parse_book_query_string
 import logging
 import os
-# "config.EnvironmentConfig"
 
 app = Flask(__name__)
-config_path = os.environ.get('CURRENT_ENVIRONMENT')
-app.config.from_object(config_path)
+app.config.from_object('config.EnvironmentConfig')
 db = SQLAlchemy(app)
 
 bookshop = Database(db, 'books_50')
@@ -56,8 +54,7 @@ def books():
 @app.route('/environment')
 def environment():
 
-    current_environment = app.config['FLASK_ENV']
-
+    current_environment = os.environ.get('CURRENT_ENV')
     return f'This is {current_environment}'
 
 
