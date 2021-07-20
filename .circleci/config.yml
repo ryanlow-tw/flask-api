@@ -11,10 +11,33 @@ jobs:
       - run: pip install -r requirements.txt
       - run: python -m unittest discover tests/
       - run: docker build -t bookshop .
-      - run: echo $CURRENT_ENVIRONMENT
+  deploy:
+    machine: true
+    steps:
+      - run:
+          name: Deploy to uat
+          command: |
+            echo 'export $(cat environment/uat.env)' >> $BASH_ENV
+            source $BASH_ENV
+            echo "$CURRENT_ENV"
+      - run:
+          name: Deploy to sit
+          command: |
+            echo 'export $(cat environment/sit.env)' >> $BASH_ENV
+            source $BASH_ENV
+            echo "$CURRENT_ENV"
+      - run:
+          name: Deploy to prod
+          command: |
+            echo 'export $(cat environment/prod.env)' >> $BASH_ENV
+            source $BASH_ENV
+            echo "$CURRENT_ENV"
 
 workflows:
   version: 2
   build-and-test:
     jobs:
       - build-and-test
+  deploy:
+    jobs:
+      - deploy
