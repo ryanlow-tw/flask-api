@@ -11,6 +11,7 @@ jobs:
       - run: pip install -r requirements.txt
       - run: python -m unittest discover tests/
       - run: docker build -t bookshop .
+      - run: echo $CURRENT_ENVIRONMENT
 
 workflows:
   version: 2
