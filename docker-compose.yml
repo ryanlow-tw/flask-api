@@ -1,8 +1,24 @@
 version: "3.8"
 services:
+  postgres:
+    container_name: postgres
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=mysecretpassword
+      - POSTGRES_USER=postgres
+
   bookshop:
+    container_name: bookshop
     build:
       context: .
     image: bookshop
     ports:
       - 5000:5000
+    depends_on:
+      - postgres
+
+networks:
+  default:
+    name: app-network
