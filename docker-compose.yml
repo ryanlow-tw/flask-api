@@ -4,7 +4,6 @@ services:
     build:
       context: .
     image: bookshop
-    working_dir: /app
     volumes:
       - ./:/app
     ports:
