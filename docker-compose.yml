@@ -4,7 +4,5 @@ services:
     build:
       context: .
     image: bookshop
-    volumes:
-      - ./:/app
     ports:
       - 5000:5000
