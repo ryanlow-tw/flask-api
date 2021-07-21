@@ -27,3 +27,24 @@ Once the server has started, use the following command to run the tests
 ```bash
 python -m unittest
 ```
+
+### Below are commands for the default username
+
+command to start docker container
+```bash
+docker start some-postgres
+```
+command to stop docker container
+```bash
+docker stop some-postgres
+```
+
+#### Command to bash into docker container with postgres
+```bash
+docker exec -it some-postgres bash
+```
+
+#### Command to start postgresql
+```bash
+psql -U postgres
+```
