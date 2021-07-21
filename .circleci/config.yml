@@ -11,7 +11,7 @@ jobs:
       - run: pip install -r requirements.txt
       - run: python -m unittest discover tests/
       - run: docker-compose up --build -d
-      - run: sleep 15s
+      - run: sleep 1m
   deploy:
     machine: true
     steps:
