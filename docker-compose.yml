@@ -1,0 +1,10 @@
+version: "3.8"
+services:
+  app:
+    image: python:3.8-slim-buster
+    command: sh -c "pip install -r requirements.txt && python3 -m flask run --host=0.0.0.0"
+    working_dir: /app
+    volumes:
+      - ./:/app
+    ports:
+      - 5000:5000
