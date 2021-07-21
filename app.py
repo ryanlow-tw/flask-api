@@ -17,7 +17,6 @@ logging.basicConfig(filename="./log.txt", level=logging.INFO)
 
 @app.route('/')
 def index():
-
     logging.info("This is the index page.")
 
     return "Index Page"
@@ -25,7 +24,6 @@ def index():
 
 @app.route('/hello')
 def hello():
-
     logging.info("This is the hello page.")
 
     return "Hello World"
@@ -33,7 +31,6 @@ def hello():
 
 @app.route('/books/<int:book_id>', methods=["GET"])
 def books_id(book_id):
-
     data = db.session.query(bookshop.db).filter_by(id=book_id).all()
     result = format_data(data)
 
@@ -42,7 +39,6 @@ def books_id(book_id):
 
 @app.route('/books', methods=["GET"])
 def books():
-
     query_strings = request.args.to_dict()
     query_builder = db.session.query(bookshop.db)
     query_builder = parse_book_query_string(query_strings, query_builder, database=bookshop.db)
@@ -53,10 +49,14 @@ def books():
 
 @app.route('/environment')
 def environment():
-
     current_environment = os.environ.get('CURRENT_ENV')
     return f'This is {current_environment}'
 
 
+@app.route('/test')
+def test():
+    return f'{__name__}'
+
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5000)
