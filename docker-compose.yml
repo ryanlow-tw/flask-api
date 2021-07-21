@@ -2,7 +2,7 @@ version: "3.8"
 services:
   app:
     image: python:3.8-slim-buster
-    command: sh -c "ls"
+    command: bash -c "ls && pip install -r requirements.txt && python -m flask run --host=0.0.0.0"
     working_dir: /app
     volumes:
       - ./:/app
