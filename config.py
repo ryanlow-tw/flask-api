@@ -14,3 +14,8 @@ class EnvironmentConfig(Config):
     FLASK_ENV = "dev"
     SQLALCHEMY_DATABASE_URI = f'postgresql://{username}:{password}@postgres:{port}/{database_name}'
     SQLALCHEMY_TRACK_MODIFICATIONS = True
+
+
+class TestConfig(Config):
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///database/books.db'
+    SQLALCHEMY_TRACK_MODIFICATIONS = True
