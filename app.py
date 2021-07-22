@@ -16,7 +16,7 @@ app = Flask(__name__)
 
 if current_env == "dev":
     app.config.from_object('config.EnvironmentConfig')
-else:
+elif current_env == "test":
     app.config.from_object('config.TestConfig')
 
 

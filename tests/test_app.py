@@ -1,3 +1,6 @@
+import os
+os.environ['CURRENT_ENV'] = "test"
+
 import unittest
 import app
 from app import index, hello
