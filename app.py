@@ -20,7 +20,6 @@ if current_env == "dev":
 else:
     app.config.from_object('config.EnvironmentConfig')
 
-# app.config.from_object('config.TestConfig')
 
 db = SQLAlchemy(app)
 
