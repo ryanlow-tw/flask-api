@@ -8,17 +8,16 @@ from books_utils.books_utils import format_data, parse_book_query_string
 from database.booksdb import Database
 from dotenv import load_dotenv
 
+current_env = os.getenv('CURRENT_ENV')
 
 load_dotenv('./dev.env')
-
-current_env = os.getenv('CURRENT_ENV')
 
 app = Flask(__name__)
 
 if current_env == "dev":
-    app.config.from_object('config.TestConfig')
-else:
     app.config.from_object('config.EnvironmentConfig')
+else:
+    app.config.from_object('config.TestConfig')
 
 
 db = SQLAlchemy(app)
