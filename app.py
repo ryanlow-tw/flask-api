@@ -11,8 +11,17 @@ from dotenv import load_dotenv
 
 load_dotenv('./dev.env')
 
+current_env = os.getenv('CURRENT_ENV')
+
 app = Flask(__name__)
-app.config.from_object('config.EnvironmentConfig')
+
+if current_env == "dev":
+    app.config.from_object('config.TestConfig')
+else:
+    app.config.from_object('config.EnvironmentConfig')
+
+# app.config.from_object('config.TestConfig')
+
 db = SQLAlchemy(app)
 
 bookshop = Database(db, 'books_50')
