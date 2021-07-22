@@ -6,8 +6,8 @@ services:
     ports:
       - 5432:5432
     environment:
-      - POSTGRES_PASSWORD=mysecretpassword
-      - POSTGRES_USER=postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_NAME}
 
   bookshop:
     container_name: bookshop
