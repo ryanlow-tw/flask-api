@@ -9,8 +9,8 @@ jobs:
       - setup_remote_docker:
            version: 20.10.6
       - run: pip install -r requirements.txt
-      - run: python -m unittest discover tests/
       - run: docker-compose up --build -d
+      - run: python -m unittest discover tests/
       - run: sleep 2s
   deploy:
     machine: true
