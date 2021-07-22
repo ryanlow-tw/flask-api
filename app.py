@@ -1,9 +1,15 @@
-from flask import Flask, request
-from flask_sqlalchemy import SQLAlchemy
-from database.booksdb import Database
-from books_utils.books_utils import format_data, parse_book_query_string
 import logging
 import os
+
+from flask import Flask, request
+from flask_sqlalchemy import SQLAlchemy
+
+from books_utils.books_utils import format_data, parse_book_query_string
+from database.booksdb import Database
+from dotenv import load_dotenv
+
+
+load_dotenv('./dev.env')
 
 app = Flask(__name__)
 app.config.from_object('config.EnvironmentConfig')

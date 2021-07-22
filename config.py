@@ -1,10 +1,14 @@
+import os
+
+
 class Config(object):
     pass
 
+
 class EnvironmentConfig(Config):
-    username = 'postgres'
-    database_name = username
-    password = 'mysecretpassword'
+    username = os.getenv('DB_USERNAME')
+    database_name = os.getenv('DB_NAME')
+    password = os.getenv('DB_PASSWORD')
     port = 5432
 
     FLASK_ENV = "dev"
