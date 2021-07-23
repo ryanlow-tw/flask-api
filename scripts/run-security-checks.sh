@@ -1,1 +1,1 @@
-bandit app.py tests/test_app.py database/booksdb.py books_utils/books_utils.py
+bandit app.py config.py tests/test_app.py database/booksdb.py books_utils/books_utils.py
