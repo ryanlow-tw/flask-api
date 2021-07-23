@@ -10,14 +10,14 @@ from dotenv import load_dotenv
 
 current_env = os.getenv('CURRENT_ENV')
 
-load_dotenv('./dev.env')
-
 app = Flask(__name__)
 
-if current_env == "dev":
-    app.config.from_object('config.EnvironmentConfig')
-elif current_env == "test":
+if current_env == "test":
+    load_dotenv('./test.env')
     app.config.from_object('config.TestConfig')
+else:
+    load_dotenv('./dev.env')
+    app.config.from_object('config.EnvironmentConfig')
 
 
 db = SQLAlchemy(app)
@@ -72,4 +72,4 @@ def test():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run()
