@@ -3,3 +3,4 @@ venv/
 database/seed/convert_csv_to_sql_db.py
 *.env
 dev.env
+.idea
