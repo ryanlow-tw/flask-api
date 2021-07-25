@@ -1,12 +1,13 @@
 import pandas as pd
 from pandas.io import sql
 from sqlalchemy import create_engine
+import os
 
-# dialect+driver://username:password@host:port/database
 
-username = 'postgres'
-database_name = username
-password = 'mysecretpassword'
+username = os.getenv('DB_USERNAME')
+database_name = os.getenv('DB_NAME')
+password = os.getenv('DB_PASSWORD')
+
 port = 5432
 
 engine = create_engine(f'postgresql://{username}:{password}@postgres:{port}/{database_name}')
