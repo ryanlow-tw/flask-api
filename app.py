@@ -1,29 +1,23 @@
 import logging
 import os
-
+from books_utils.books_utils import parse_books_query_strings
 from flask import Flask, request
-from flask_sqlalchemy import SQLAlchemy
+from database.booksdb import DatabaseConnection
+from database.seed.seed_mongo import seed_database
 
-from books_utils.books_utils import format_data, parse_book_query_string
-from database.booksdb import Database
-from dotenv import load_dotenv
-
-current_env = os.getenv('CURRENT_ENV')
+username = os.getenv('DB_USERNAME')
+password = os.getenv('DB_PASSWORD')
+db_name = os.getenv('DB_NAME')
+port = os.getenv('DB_PORT')
+host = os.getenv('DB_HOST')
+mongo_url = f'mongodb://{username}:{password}@{host}:{port}'
+seed_database(mongo_url, db_name)
+connection = DatabaseConnection(mongo_url)
+database = connection.load_db(db_name)
+collections = database['books50']
 
 app = Flask(__name__)
-
-if current_env == "test":
-    load_dotenv('./test.env')
-    app.config.from_object('config.TestConfig')
-else:
-    load_dotenv('./dev.env')
-    app.config.from_object('config.EnvironmentConfig')
-
-
-db = SQLAlchemy(app)
-
-bookshop = Database(db, 'books_50')
-bookshop.load_db()
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
 logging.basicConfig(filename="./log.txt", level=logging.INFO)
 
@@ -44,20 +38,19 @@ def hello():
 
 @app.route('/books/<int:book_id>', methods=["GET"])
 def books_id(book_id):
-    data = db.session.query(bookshop.db).filter_by(id=book_id).all()
-    result = format_data(data)
+    query = {"id": book_id}
 
-    return result
+    results = collections.find(query, {'_id': 0})
+
+    return {'results': [doc for doc in results]}
 
 
 @app.route('/books', methods=["GET"])
 def books():
     query_strings = request.args.to_dict()
-    query_builder = db.session.query(bookshop.db)
-    query_builder = parse_book_query_string(query_strings, query_builder, database=bookshop.db)
-    data = format_data(query_builder)
+    results = parse_books_query_strings(collections, query_strings)
 
-    return data
+    return {'results': [doc for doc in results]}
 
 
 @app.route('/environment')

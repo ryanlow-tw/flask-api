@@ -10,8 +10,8 @@ jobs:
            version: 20.10.6
       - run: pip install -r requirements.txt
       - run: sh scripts/run-security-checks.sh
-      - run: python -m unittest discover tests/
       - run: docker-compose up --build -d
+      - run: python -m unittest discover tests/
   deploy:
     machine: true
     steps:

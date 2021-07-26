@@ -1,58 +1,30 @@
-def format_data(table_results):
-    data = []
-    for row in table_results:
-        data.append(
-            {
-                'id': f'{row.id}',
-                'author': f'{row.author}',
-                'title': f'{row.title}',
-                'image_url': f'{row.image_url}',
-                'small_image_url': f'{row.small_image_url}',
-                'price': f'{row.price}',
-                'isbn': f'{row.isbn}',
-                'isbn13': f'{row.isbn13}',
-                'original_publication_year': f'{row.original_publication_year}',
-                'original_title': f'{row.original_title}',
-                'language_code': f'{row.language_code}',
-                'average_rating': f'{row.average_rating}'
-            }
-        )
+def parse_books_query_strings(collections, query_strings):
+    mongo_query = {}
 
-    return {'results': data}
+    selected_rows = {'_id': 0}
 
+    order_mapping = {"desc": -1,
+                     "asc": 1}
 
-def parse_book_query_string(query_strings, query_builder, database):
+    numeric_mapping = {
+        "average_rating": float,
+        "original_publication_year": int,
+        "price": int
+    }
 
-    order = query_strings.get("order", "").lower()
-    name = query_strings.get("name", "").lower()
-    price = query_strings.get("price", None)
-    language = query_strings.get("language", "").lower()
-    isbn = query_strings.get("isbn", "")
-    isbn13 = query_strings.get("isbn13", "")
+    for key, value in query_strings.items():
+        if key != "order" and key not in numeric_mapping:
+            mongo_query[key] = {'$regex': value, '$options': 'i'}
 
-    if name != "":
-        query_builder = query_builder.filter(database.c.author.contains(name))
+    for key in numeric_mapping:
+        if key in query_strings:
+            function = numeric_mapping[key]
+            mongo_query[key] = function(query_strings[key])
 
-    if price is not None:
-        price = int(price)
-        query_builder = query_builder.filter(database.c.price.contains(price))
-
-    if language != "":
-        query_builder = query_builder.filter(database.c.language_code.contains(language))
-
-    if isbn != "":
-        query_builder = query_builder.filter(database.c.isbn.contains(isbn))
-
-    if isbn13 != "":
-        query_builder = query_builder.filter(database.c.isbn13.contains(isbn13))
-
-    if order == "desc":
-        query_builder = query_builder.order_by(database.c.price.desc()).all()
-
-    elif order == "asc":
-        query_builder = query_builder.order_by(database.c.price).all()
-
+    if "order" in query_strings:
+        order = order_mapping[query_strings["order"]]
+        results = collections.find(mongo_query, selected_rows).sort("price", order)
     else:
-        query_builder = query_builder.all()
+        results = collections.find(mongo_query, selected_rows)
 
-    return query_builder
+    return results

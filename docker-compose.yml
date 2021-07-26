@@ -1,13 +1,16 @@
 version: "3.8"
 services:
-  postgres:
-    container_name: postgres
-    image: postgres
+
+  mongo:
+    container_name: mongo
+    image: mongo
+    restart: always
     ports:
-      - 5432:5432
+      - 27017:27017
     environment:
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_USER: ${DB_NAME}
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
+      MONGO_INITDB_DATABASE: ${DB_NAME}
 
   bookshop:
     container_name: bookshop
@@ -16,8 +19,14 @@ services:
     image: bookshop
     ports:
       - 5000:5000
+    environment:
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      DB_PORT: ${DB_PORT}
+      DB_HOST: ${DB_HOST}
     depends_on:
-      - postgres
+      - mongo
 
 networks:
   default:
