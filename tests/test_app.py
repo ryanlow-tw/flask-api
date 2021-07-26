@@ -6,7 +6,7 @@ from database.booksdb import DatabaseConnection
 class TestBookShop_API(unittest.TestCase):
 
     def test_root_page_returns_string_index_page(self):
-        r = requests.get('http://localhost:5000')
+        r = requests.get('http://bookshop:5000')
         self.assertEqual(200, r.status_code)
         self.assertEqual("Index Page", r.text)
 
